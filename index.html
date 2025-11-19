@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Polemic Garden - Pitch Deck Fullscreen</title>
+    <!-- Мета-тег для адаптации к мобильным устройствам -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Сброс всех внешних отступов и рамок */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            /* Устанавливаем черный фон (может быть #000000 или #111827, как у вас было) */
+            background: #111827; 
+            overflow: hidden; /* Убираем все полосы прокрутки */
+        }
+
+        /* Стиль для окна с презентацией (iframe) */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Убираем рамку */
+            display: block;
+        }
+
+        /* Скрываем все HTML-элементы на ПК, кроме iframe, 
+           но оставляем их для мобильных, чтобы сработал JS-скрипт */
+        #content-wrapper {
+             width: 100%;
+             height: 100%;
+        }
+
+        /* Скрываем элементы, которые остались от старой версии */
+        h1, .button {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<!--
+    Скрипт для мобильных устройств: 
+    Если устройство мобильное, браузер сразу перенаправляется на pitch.pdf, 
+    чтобы открыть его в нативном полноэкранном режиме. 
+-->
+<script>
+  (function () {
+    // Определяем мобильное устройство по User Agent или ширине экрана
+    var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 800;
+    if (isMobile) {
+      // Прямое перенаправление на PDF
+      // Используем try...catch для безопасной работы в среде предварительного просмотра (где относительные URL могут блокироваться).
+      try {
+        window.location.href = "pitch.pdf";
+      } catch (e) {
+        // Ошибка перенаправления в изолированной среде, игнорируем. На реальном домене сработает.
+        console.warn("Redirection attempt failed in preview environment: " + e.message);
+      }
+    }
+  })();
+</script>
+
+<!--
+    Основной контент для Десктопа: Встраиваем PDF.
+    Этот блок виден только на ПК, так как на мобильных сработает скрипт выше.
+-->
+<div id="content-wrapper">
+    <!-- Использование iframe обеспечивает отображение на весь экран благодаря CSS-стилям выше -->
+    <iframe src="pitch.pdf" title="Polemic Garden Pitch Deck"></iframe>
+</div>
+
+</body>
+</html>
